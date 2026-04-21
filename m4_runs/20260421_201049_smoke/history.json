@@ -1,0 +1,98 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "top1": 0.0,
+      "top3": 0.010309278033673763,
+      "top5": 0.015463917516171932,
+      "time_nll": 13.619095802307129,
+      "layered": [
+        {
+          "bin": "1-1",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "2-3",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "4-6",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "7-15",
+          "n": 2,
+          "top1": 0.0
+        },
+        {
+          "bin": "16-300",
+          "n": 192,
+          "top1": 0.0
+        }
+      ],
+      "n_valid": 194,
+      "n_total": 200,
+      "train_loss": 5.906883147455031,
+      "train_acc1": 0.028225806451612902
+    }
+  ],
+  "test": {
+    "top1": 0.0,
+    "top3": 0.0,
+    "top5": 0.005050505045801401,
+    "time_nll": 12.0753173828125,
+    "layered": [
+      {
+        "bin": "1-1",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "2-3",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "4-6",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "7-15",
+        "n": 1,
+        "top1": 0.0
+      },
+      {
+        "bin": "16-300",
+        "n": 197,
+        "top1": 0.0
+      }
+    ],
+    "n_valid": 198,
+    "n_total": 200
+  },
+  "config": {
+    "samples_dir": "./out_samples",
+    "graph_pkl": "./out_graph/graph.pkl",
+    "out": "m4_runs\\20260421_201049_smoke",
+    "batch_size": 16,
+    "epochs": 1,
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "warmup": 500,
+    "d": 64,
+    "hgt_layers": 2,
+    "tf_layers": 3,
+    "heads": 4,
+    "n_mix": 4,
+    "time_weight": 0.1,
+    "num_workers": 2,
+    "log_every": 10,
+    "val_max_batches": 20,
+    "amp": false,
+    "smoke_test": true
+  }
+}

@@ -1,0 +1,14 @@
+[train] 31 steps/epoch, 31 total, amp=False amp_dtype=torch.bfloat16
+ep 0 step 10 lr=6.00e-06 loss=5.8584 mark=4.8681 time=9.9027 acc1=0.0500
+ep 0 step 20 lr=1.20e-05 loss=5.8976 mark=4.9617 time=9.3598 acc1=0.0344
+ep 0 step 30 lr=1.80e-05 loss=5.9103 mark=4.9702 time=9.4015 acc1=0.0271
+[ep 0] val top1=0.0000 top3=0.0103 top5=0.0155 time_nll=13.6191  (893s)
+  -> saved best to m4_runs\20260421_201049_smoke/best.pt
+
+[test] loading best checkpoint...
+[test] top1=0.0000 top3=0.0000 top5=0.0051 time_nll=12.0753
+  n_legal in 1-1: n=0  top1=None
+  n_legal in 2-3: n=0  top1=None
+  n_legal in 4-6: n=0  top1=None
+  n_legal in 7-15: n=1  top1=0.0
+  n_legal in 16-300: n=197  top1=0.0
