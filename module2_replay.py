@@ -47,47 +47,93 @@ def log1p_norm(secs, cap=3600.0):
 
 # ---------- 焦点车 MOV 上下文 ----------
 class MovContext:
-    """给定 (headcode, t), 返回最近一条 MOV 的特征向量."""
+    """给定 (headcode, t), 返回最近一条 MOV 的特征向量.
+
+    v2 扩展 (方案 E):
+      - minutes_until_next_planned:  到下一计划到发的分钟 (tanh/30)
+      - minutes_since_last_planned:  距上一计划到发的分钟 (tanh/30)
+      - next_stanox one-hot (7+1=8 维)
+      - train_terminated (1 维)
+      - offroute_ind (1 维)
+    总新增 11 维, 加上原 23 维 = 34 维.
+    """
     TOC_CATS = [28, 27, 42, 5, 7, 54, 9, 34, 16, 97]  # top 10, 其他归 OTHER
     SRV_PREFIXES = ['1', '2', '5', '6', '9', '0']     # UK 标准列车代码首位
+    # Derby 区域附近的 top stanox (前 7 个 + OTHER)
+    STANOX_CATS = [57403, 57406, 57404, 57408, 57421, 57419, 57435]
 
-    def __init__(self, mov_df):
+    def __init__(self, mov_df, use_v2=True):
         mov_df = mov_df.copy()
         mov_df['t'] = pd.to_datetime(mov_df['actual_timestamp'])
+        mov_df['planned_t'] = pd.to_datetime(mov_df['planned_timestamp'],
+                                              errors='coerce')
         mov_df['headcode'] = mov_df['train_id'].astype(str).str.slice(2, 6)
         mov_df = mov_df.sort_values(['headcode', 't'])
-        # 用 groupby + merge_asof 的 per-group 做近邻查找
-        self.by_hc = {k: v[['t', 'timetable_variation', 'variation_status',
-                            'toc_id', 'train_service_code']].reset_index(drop=True)
+        cols = ['t', 'planned_t', 'timetable_variation', 'variation_status',
+                'toc_id', 'train_service_code',
+                'next_report_stanox', 'next_report_run_time',
+                'train_terminated', 'offroute_ind']
+        self.by_hc = {k: v[cols].reset_index(drop=True)
                       for k, v in mov_df.groupby('headcode')}
-        # feature dim: delay(1) + status_onehot(4) + toc_onehot(11) + srv_onehot(7) = 23
-        self.dim = 1 + 4 + (len(self.TOC_CATS) + 1) + (len(self.SRV_PREFIXES) + 1)
+
+        self.use_v2 = use_v2
+        base = 1 + 4 + (len(self.TOC_CATS) + 1) + (len(self.SRV_PREFIXES) + 1)
+        if use_v2:
+            extra = 2 + (len(self.STANOX_CATS) + 1) + 1 + 1   # 12 dims
+            self.dim = base + extra   # 23 + 12 = 35
+        else:
+            self.dim = base   # 23
 
     def get(self, headcode, t):
         vec = np.zeros(self.dim, dtype=np.float32)
         rec = self.by_hc.get(headcode)
         if rec is None:
             return vec
-        # 找最近一条 t_mov <= t 的记录
         idx = rec['t'].searchsorted(t, side='right') - 1
         if idx < 0:
             return vec
         row = rec.iloc[idx]
-        vec[0] = np.tanh(float(row['timetable_variation']) / 30.0)  # 压缩到 (-1,1)
+
+        # ---- v1 特征 (不变) ----
+        vec[0] = np.tanh(float(row['timetable_variation']) / 30.0)
         status_map = {'EARLY': 0, 'ON TIME': 1, 'LATE': 2, 'OFF ROUTE': 3}
         s = status_map.get(row['variation_status'], None)
         if s is not None:
             vec[1 + s] = 1.0
-        # toc
         try:
             toc = int(row['toc_id'])
             vec[5 + (self.TOC_CATS.index(toc) if toc in self.TOC_CATS else len(self.TOC_CATS))] = 1.0
         except Exception:
             vec[5 + len(self.TOC_CATS)] = 1.0
-        # service prefix
         srv = str(row['train_service_code'])[:1]
         pidx = self.SRV_PREFIXES.index(srv) if srv in self.SRV_PREFIXES else len(self.SRV_PREFIXES)
         vec[5 + len(self.TOC_CATS) + 1 + pidx] = 1.0
+
+        if not self.use_v2:
+            return vec
+
+        # ---- v2 新特征 (方案 E) ----
+        base = 5 + len(self.TOC_CATS) + 1 + len(self.SRV_PREFIXES) + 1   # = 23
+        # 距离上一次计划到发的分钟
+        planned_t = row['planned_t']
+        if pd.notna(planned_t):
+            delta_planned = (t - planned_t).total_seconds() / 60.0
+            vec[base] = np.tanh(delta_planned / 30.0)
+            vec[base + 1] = np.tanh(-delta_planned / 30.0)   # 对称, 捕捉早/晚
+        # next_report_stanox one-hot (8 维: 7 top + OTHER)
+        try:
+            nstx = int(row['next_report_stanox'])
+            if nstx in self.STANOX_CATS:
+                vec[base + 2 + self.STANOX_CATS.index(nstx)] = 1.0
+            else:
+                vec[base + 2 + len(self.STANOX_CATS)] = 1.0
+        except Exception:
+            vec[base + 2 + len(self.STANOX_CATS)] = 1.0
+        # terminated / offroute
+        if bool(row['train_terminated']):
+            vec[base + 2 + len(self.STANOX_CATS) + 1] = 1.0
+        if bool(row['offroute_ind']):
+            vec[base + 2 + len(self.STANOX_CATS) + 2] = 1.0
         return vec
 
 
@@ -314,15 +360,18 @@ class Replayer:
 
 # ---------- 主流程 ----------
 def main(graph_pkl, td_csv, mov_csv, out_dir, K=64, max_samples=None,
-         downsample_track_in_tokens=True):
+         downsample_track_in_tokens=True, emit_npz=False):
     os.makedirs(out_dir, exist_ok=True)
     print(f"[load] graph from {graph_pkl}")
     graph = pickle.load(open(graph_pkl, 'rb'))
 
     print(f"[load] MOV from {mov_csv}")
     mov_df = pd.read_csv(mov_csv, usecols=['train_id', 'actual_timestamp',
+                                           'planned_timestamp',
                                            'timetable_variation', 'variation_status',
-                                           'toc_id', 'train_service_code'],
+                                           'toc_id', 'train_service_code',
+                                           'next_report_stanox', 'next_report_run_time',
+                                           'train_terminated', 'offroute_ind'],
                          low_memory=False)
     mov_ctx = MovContext(mov_df)
     print(f"[mov] feature dim = {mov_ctx.dim}")
@@ -432,20 +481,44 @@ def main(graph_pkl, td_csv, mov_csv, out_dir, K=64, max_samples=None,
     meta_df.to_csv(os.path.join(out_dir, 'samples.csv'), index=False)
     print(f"[write] samples.csv  ({len(meta_df)} rows)")
 
-    np.savez_compressed(os.path.join(out_dir, 'graph_states.npz'),
-                        berth=np.stack(graph_states['berth']),
-                        tc=np.stack(graph_states['tc']),
-                        route=np.stack(graph_states['route']),
-                        signal=np.stack(graph_states['signal']))
-    np.savez_compressed(os.path.join(out_dir, 'event_windows.npz'),
-                        X=np.stack(event_wins))
-    np.savez_compressed(os.path.join(out_dir, 'legal_masks.npz'),
-                        M=np.stack(legal_masks))
+    # 先把 list 堆成 ndarray, 一次算好
+    gs_berth  = np.stack(graph_states['berth'])
+    gs_tc     = np.stack(graph_states['tc'])
+    gs_route  = np.stack(graph_states['route'])
+    gs_signal = np.stack(graph_states['signal'])
+    ev_X   = np.stack(event_wins)
+    mk_M   = np.stack(legal_masks)
+    mov_X  = np.stack(mov_feats)
+    lb_mark = np.array(labels_mark, dtype=np.int64)
+    lb_dt   = np.array(labels_dt, dtype=np.float32)
+
+    # ---- 主要产物: 未压缩 .npy 文件 (mmap 友好, DataLoader 可直接 mmap 读, 训练快 ~1000x) ----
+    # 注意: 未压缩文件体积较大 (约 4-6 GB), 训练期直接用 .npy; 若要归档, 用 --emit-npz 再追加压缩版
+    print("[write] .npy (mmap-friendly, preferred for training)...")
+    np.save(os.path.join(out_dir, 'graph_states_berth.npy'),  gs_berth,  allow_pickle=False)
+    np.save(os.path.join(out_dir, 'graph_states_tc.npy'),     gs_tc,     allow_pickle=False)
+    np.save(os.path.join(out_dir, 'graph_states_route.npy'),  gs_route,  allow_pickle=False)
+    np.save(os.path.join(out_dir, 'graph_states_signal.npy'), gs_signal, allow_pickle=False)
+    np.save(os.path.join(out_dir, 'event_windows_X.npy'),     ev_X,      allow_pickle=False)
+    np.save(os.path.join(out_dir, 'legal_masks_M.npy'),       mk_M,      allow_pickle=False)
+    np.save(os.path.join(out_dir, 'mov_features_X.npy'),      mov_X,     allow_pickle=False)
+    # labels 小, 保持 npz 无所谓, 但为了统一也给一份 npy
+    np.save(os.path.join(out_dir, 'labels_mark.npy'),         lb_mark,   allow_pickle=False)
+    np.save(os.path.join(out_dir, 'labels_dt_log.npy'),       lb_dt,     allow_pickle=False)
+
+    # labels 仍然以 npz 形式保留 (m4_dataset.py 里读 labels.npz)
     np.savez_compressed(os.path.join(out_dir, 'labels.npz'),
-                        mark=np.array(labels_mark, dtype=np.int64),
-                        dt_log=np.array(labels_dt, dtype=np.float32))
-    np.savez_compressed(os.path.join(out_dir, 'mov_features.npz'),
-                        X=np.stack(mov_feats))
+                        mark=lb_mark, dt_log=lb_dt)
+
+    # 可选: 额外输出压缩 .npz 方便归档/传输
+    if emit_npz:
+        print("[write] .npz (compressed, for archival)...")
+        np.savez_compressed(os.path.join(out_dir, 'graph_states.npz'),
+                            berth=gs_berth, tc=gs_tc, route=gs_route, signal=gs_signal)
+        np.savez_compressed(os.path.join(out_dir, 'event_windows.npz'), X=ev_X)
+        np.savez_compressed(os.path.join(out_dir, 'legal_masks.npz'),   M=mk_M)
+        np.savez_compressed(os.path.join(out_dir, 'mov_features.npz'),  X=mov_X)
+
     with open(os.path.join(out_dir, 'vocab.pkl'), 'wb') as f:
         pickle.dump({k: v.itos for k, v in vocabs.items()}, f)
 
@@ -464,7 +537,10 @@ if __name__ == '__main__':
     ap.add_argument('--td', required=True)
     ap.add_argument('--mov', required=True)
     ap.add_argument('--out', default='./out_samples')
-    ap.add_argument('--K', type=int, default=64, help='event token window size')
+    ap.add_argument('--K', type=int, default=128, help='event token window size')
     ap.add_argument('--max-samples', type=int, default=None)
+    ap.add_argument('--emit-npz', action='store_true',
+                    help='同时输出压缩 .npz 版本 (归档用, 体积小但训练时不要用)')
     a = ap.parse_args()
-    main(a.graph, a.td, a.mov, a.out, K=a.K, max_samples=a.max_samples)
+    main(a.graph, a.td, a.mov, a.out, K=a.K, max_samples=a.max_samples,
+         emit_npz=a.emit_npz)

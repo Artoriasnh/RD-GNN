@@ -32,6 +32,26 @@ MODES = {
         weight_decay=0.01, time_weight=0.1,
         amp=True, num_workers=0, log_every=50,
     ),
+    'full_tuned': dict(
+        # 方案 A 之前的 "full+": 更长训练 + 更强正则 + time_weight 提高
+        # 适用于 v1 数据 (out_samples, mov_dim=23, K=64)
+        batch_size=32, d=128, epochs=8,
+        hgt_layers=2, tf_layers=3, heads=4,
+        lr=3e-4, warmup=500,
+        weight_decay=0.05, time_weight=0.3,
+        amp=True, num_workers=0, log_every=50,
+    ),
+    'full_ace': dict(
+        # 方案 A+C+E 联合: 加权 loss + K=128 + mov_dim=35
+        # 必须配合 out_samples_v2 (K=128 重跑的新数据)
+        # 用法: python run_m4.py full_ace --samples-dir out_samples_v2
+        batch_size=32, d=128, epochs=5,
+        hgt_layers=2, tf_layers=3, heads=4,
+        lr=3e-4, warmup=500,
+        weight_decay=0.01, time_weight=0.1,
+        class_weights=True,
+        amp=True, num_workers=0, log_every=50,
+    ),
     'large': dict(
         batch_size=128, d=192, epochs=10,
         hgt_layers=3, tf_layers=4, heads=6,
@@ -41,12 +61,13 @@ MODES = {
 }
 
 
-def build_cmd(mode, out_dir):
+def build_cmd(mode, out_dir, samples_dir='./out_samples',
+               graph_pkl='./out_graph/graph.pkl'):
     cfg = MODES[mode]
     cmd = [
         sys.executable, 'm4_train.py',
-        '--samples-dir', './out_samples',
-        '--graph-pkl',   './out_graph/graph.pkl',
+        '--samples-dir', samples_dir,
+        '--graph-pkl',   graph_pkl,
         '--out',         out_dir,
     ]
     for k, v in cfg.items():
@@ -61,18 +82,28 @@ def build_cmd(mode, out_dir):
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in MODES:
-        print(f"Usage: python run_m4.py [{' | '.join(MODES)}]")
-        sys.exit(1)
+    import argparse
+    ap = argparse.ArgumentParser(
+        usage='python run_m4.py <mode> [--samples-dir DIR] [--graph-pkl PATH]',
+        description='Shortcut launcher for m4_train.py. '
+                    'Mode presets in MODES dict.')
+    ap.add_argument('mode', choices=list(MODES.keys()),
+                    help='preset mode: ' + ' | '.join(MODES.keys()))
+    ap.add_argument('--samples-dir', default='./out_samples',
+                    help='data dir (default ./out_samples; 用方案 ACE 时改为 ./out_samples_v2)')
+    ap.add_argument('--graph-pkl', default='./out_graph/graph.pkl')
+    args = ap.parse_args()
 
-    mode = sys.argv[1]
+    mode = args.mode
     ts = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
     out_dir = os.path.join('m4_runs', f'{ts}_{mode}')
     os.makedirs(out_dir, exist_ok=True)
 
     print("=" * 60)
     print(f"Derby M4 training — mode={mode}")
-    print(f"output: {out_dir}")
+    print(f"output:      {out_dir}")
+    print(f"samples-dir: {args.samples_dir}")
+    print(f"graph-pkl:   {args.graph_pkl}")
     print("=" * 60)
 
     # 提示: 先检查 nvidia-smi (如果有)
@@ -89,13 +120,13 @@ def main():
     print()
 
     # 检查数据目录
-    for p in ['./out_samples/samples.csv', './out_graph/graph.pkl']:
+    for p in [os.path.join(args.samples_dir, 'samples.csv'), args.graph_pkl]:
         if not os.path.exists(p):
             print(f"ERROR: {p} 不存在.")
-            print("  请确认 Module 1 和 Module 2 的产出放在 ./out_graph/ 和 ./out_samples/")
+            print(f"  请确认 Module 2 产出在 {args.samples_dir}/, Module 1 在 {args.graph_pkl}")
             sys.exit(1)
 
-    cmd = build_cmd(mode, out_dir)
+    cmd = build_cmd(mode, out_dir, args.samples_dir, args.graph_pkl)
     print("Running:")
     print("  " + ' '.join(f'"{c}"' if ' ' in c else c for c in cmd))
     print()

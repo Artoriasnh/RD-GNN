@@ -210,18 +210,45 @@ def main(args):
     n_train_tok = len(base_tr.vocab['train'])
     print(f"[model] vocabs: type={n_type} id={n_id} train={n_train_tok}")
 
+    # 从一个样本推断 mov_dim 和 K — 自动兼容 v1 (23/64) 和 v2 (35/128)
+    _probe = base_tr[0]
+    mov_dim_inferred = _probe['mov'].shape[-1]
+    K_inferred = _probe['events_cat'].shape[0]
+    print(f"[model] inferred from data: mov_dim={mov_dim_inferred}  K={K_inferred}")
+
     model = DerbyModel(
         node_feat_dims=node_feat_dims,
         metadata=g_hetero.metadata(),
         n_type=n_type, n_id=n_id, n_train=n_train_tok,
-        mov_dim=23,
+        mov_dim=mov_dim_inferred,
         d=args.d, n_hgt_layers=args.hgt_layers,
         n_tf_layers=args.tf_layers,
-        n_heads=args.heads, K=64, n_mix=args.n_mix,
+        n_heads=args.heads, K=K_inferred, n_mix=args.n_mix,
     ).to(device)
 
     n_params = sum(p.numel() for p in model.parameters())
     print(f"[model] {n_params/1e6:.2f}M params")
+
+    # ---- 方案 A: 按 (area, headcode_class) 组合计算样本权重 ----
+    sample_weights_tensor = None
+    combo_names = None
+    if args.class_weights:
+        import numpy as _np
+        base_tr_ds = ds_tr.dataset if hasattr(ds_tr, 'dataset') else ds_tr
+        # 统计训练集内每个组合的样本数
+        train_combos = base_tr_ds.combo_idx_all[base_tr_ds.idx]
+        n_combo = len(base_tr_ds.combo_names)
+        n_per = _np.bincount(train_combos, minlength=n_combo)
+        median_n = float(_np.median(n_per[n_per > 0]))
+        w = median_n / (n_per.astype(_np.float32) + 1e-6)
+        w = _np.clip(w, args.class_weight_min, args.class_weight_max)
+        sample_weights_tensor = torch.tensor(w, dtype=torch.float32)
+        combo_names = base_tr_ds.combo_names
+        print(f"[class-weights] median_n={median_n:.0f}  "
+              f"clip=[{args.class_weight_min},{args.class_weight_max}]")
+        print(f"[class-weights] per (area|hc) weights (train):")
+        for name, nc, ww in sorted(zip(combo_names, n_per, w), key=lambda x: -x[1]):
+            print(f"  {name:25s} n={nc:<6d} w={ww:.3f}")
 
     # ---- AMP setup ----
     # bfloat16 on Ampere+, fp16 + GradScaler otherwise (older cards)
@@ -271,9 +298,18 @@ def main(args):
                 if has_legal.sum() == 0:
                     continue
 
-                # mark loss
+                # mark loss  (方案 A: class-weighted)
                 log_p = F.log_softmax(logits, dim=-1)
-                mark_ce = F.nll_loss(log_p[has_legal], batch['label_mark'][has_legal])
+                if sample_weights_tensor is not None:
+                    w_batch = sample_weights_tensor.to(log_p.device)[batch['combo_idx']]
+                    mark_ce_per = F.nll_loss(log_p[has_legal],
+                                              batch['label_mark'][has_legal],
+                                              reduction='none')
+                    mark_ce = (mark_ce_per * w_batch[has_legal]).sum() / \
+                               w_batch[has_legal].sum().clamp(min=1e-6)
+                else:
+                    mark_ce = F.nll_loss(log_p[has_legal],
+                                          batch['label_mark'][has_legal])
 
                 # time loss
                 tau = torch.expm1(batch['label_dt']).clamp(min=1e-3)
@@ -332,7 +368,10 @@ def main(args):
                          'epoch': epoch, 'val_rep': val_rep,
                          'args': vars(args),
                          'node_feat_dims': node_feat_dims,
-                         'vocabs': base_tr.vocab},
+                         'vocabs': base_tr.vocab,
+                         'mov_dim': mov_dim_inferred,
+                         'K': K_inferred,
+                         'combo_names': combo_names},
                         os.path.join(args.out, 'best.pt'))
             _log(f"  -> saved best to {args.out}/best.pt")
 
@@ -380,6 +419,12 @@ if __name__ == '__main__':
     ap.add_argument('--log-every', type=int, default=50)
     ap.add_argument('--val-max-batches', type=int, default=None)
     ap.add_argument('--amp', action='store_true', help='启用 AMP (bfloat16 on Ampere+)')
+    ap.add_argument('--class-weights', action='store_true',
+                    help='enable per-(area, headcode) weighted loss (方案 A)')
+    ap.add_argument('--class-weight-min', type=float, default=0.5,
+                    help='lower clip for class weights (default 0.5)')
+    ap.add_argument('--class-weight-max', type=float, default=3.0,
+                    help='upper clip for class weights (default 3.0)')
     ap.add_argument('--smoke-test', action='store_true', help='跑 500 样本快速验证')
     a = ap.parse_args()
     main(a)
