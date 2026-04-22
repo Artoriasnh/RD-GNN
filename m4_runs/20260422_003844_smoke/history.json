@@ -1,0 +1,98 @@
+{
+  "history": [
+    {
+      "epoch": 0,
+      "top1": 0.010309278033673763,
+      "top3": 0.020618556067347527,
+      "top5": 0.020618556067347527,
+      "time_nll": 8.396440505981445,
+      "layered": [
+        {
+          "bin": "1-1",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "2-3",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "4-6",
+          "n": 0,
+          "top1": null
+        },
+        {
+          "bin": "7-15",
+          "n": 2,
+          "top1": 0.0
+        },
+        {
+          "bin": "16-300",
+          "n": 192,
+          "top1": 0.010416666977107525
+        }
+      ],
+      "n_valid": 194,
+      "n_total": 200,
+      "train_loss": 5.642492863439744,
+      "train_acc1": 0.05241935483870968
+    }
+  ],
+  "test": {
+    "top1": 0.010101010091602802,
+    "top3": 0.035353533923625946,
+    "top5": 0.0555555559694767,
+    "time_nll": 7.605762958526611,
+    "layered": [
+      {
+        "bin": "1-1",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "2-3",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "4-6",
+        "n": 0,
+        "top1": null
+      },
+      {
+        "bin": "7-15",
+        "n": 1,
+        "top1": 0.0
+      },
+      {
+        "bin": "16-300",
+        "n": 197,
+        "top1": 0.010152284055948257
+      }
+    ],
+    "n_valid": 198,
+    "n_total": 200
+  },
+  "config": {
+    "samples_dir": "./out_samples",
+    "graph_pkl": "./out_graph/graph.pkl",
+    "out": "m4_runs\\20260422_003844_smoke",
+    "batch_size": 16,
+    "epochs": 1,
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "warmup": 5,
+    "d": 64,
+    "hgt_layers": 2,
+    "tf_layers": 3,
+    "heads": 4,
+    "n_mix": 4,
+    "time_weight": 0.1,
+    "num_workers": 0,
+    "log_every": 5,
+    "val_max_batches": 20,
+    "amp": false,
+    "smoke_test": true
+  }
+}

@@ -1,0 +1,244 @@
+[train] 1081 steps/epoch, 10810 total, amp=True amp_dtype=torch.bfloat16
+ep 0 step 50 lr=1.00e-05 loss=6.0458 mark=4.9774 time=10.6846 acc1=0.0194
+ep 0 step 100 lr=2.00e-05 loss=5.9001 mark=4.9902 time=9.0996 acc1=0.0200
+ep 0 step 150 lr=3.00e-05 loss=5.8383 mark=4.9917 time=8.4662 acc1=0.0209
+ep 0 step 200 lr=4.00e-05 loss=5.7941 mark=4.9830 time=8.1108 acc1=0.0224
+ep 0 step 250 lr=5.00e-05 loss=5.6965 mark=4.9069 time=7.8959 acc1=0.0231
+ep 0 step 300 lr=6.00e-05 loss=5.5941 mark=4.8181 time=7.7604 acc1=0.0278
+ep 0 step 350 lr=7.00e-05 loss=5.4545 mark=4.6905 time=7.6404 acc1=0.0415
+ep 0 step 400 lr=8.00e-05 loss=5.2744 mark=4.5195 time=7.5487 acc1=0.0670
+ep 0 step 450 lr=9.00e-05 loss=5.0547 mark=4.3088 time=7.4590 acc1=0.1022
+ep 0 step 500 lr=1.00e-04 loss=4.8430 mark=4.1030 time=7.4000 acc1=0.1377
+ep 0 step 550 lr=1.10e-04 loss=4.6530 mark=3.9188 time=7.3415 acc1=0.1681
+ep 0 step 600 lr=1.20e-04 loss=4.4815 mark=3.7517 time=7.2982 acc1=0.1962
+ep 0 step 650 lr=1.30e-04 loss=4.3309 mark=3.6056 time=7.2535 acc1=0.2206
+ep 0 step 700 lr=1.40e-04 loss=4.1979 mark=3.4763 time=7.2155 acc1=0.2426
+ep 0 step 750 lr=1.50e-04 loss=4.0755 mark=3.3569 time=7.1858 acc1=0.2635
+ep 0 step 800 lr=1.60e-04 loss=3.9692 mark=3.2543 time=7.1497 acc1=0.2805
+ep 0 step 850 lr=1.70e-04 loss=3.8720 mark=3.1593 time=7.1270 acc1=0.2971
+ep 0 step 900 lr=1.80e-04 loss=3.7833 mark=3.0733 time=7.1003 acc1=0.3118
+ep 0 step 950 lr=1.90e-04 loss=3.7042 mark=2.9967 time=7.0745 acc1=0.3250
+ep 0 step 1000 lr=2.00e-04 loss=3.6305 mark=2.9254 time=7.0509 acc1=0.3376
+ep 0 step 1050 lr=2.00e-04 loss=3.5615 mark=2.8586 time=7.0289 acc1=0.3494
+[ep 0] val top1=0.5855 top3=0.7678 top5=0.8260 time_nll=6.5458  (814s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 1 step 1100 lr=2.00e-04 loss=2.1484 mark=1.4965 time=6.5193 acc1=0.5975
+ep 1 step 1150 lr=2.00e-04 loss=2.1324 mark=1.4825 time=6.4992 acc1=0.5985
+ep 1 step 1200 lr=2.00e-04 loss=2.1119 mark=1.4667 time=6.4521 acc1=0.5995
+ep 1 step 1250 lr=2.00e-04 loss=2.0846 mark=1.4395 time=6.4508 acc1=0.6068
+ep 1 step 1300 lr=2.00e-04 loss=2.0705 mark=1.4252 time=6.4526 acc1=0.6088
+ep 1 step 1350 lr=1.99e-04 loss=2.0591 mark=1.4139 time=6.4523 acc1=0.6109
+ep 1 step 1400 lr=1.99e-04 loss=2.0503 mark=1.4071 time=6.4324 acc1=0.6136
+ep 1 step 1450 lr=1.99e-04 loss=2.0446 mark=1.4015 time=6.4303 acc1=0.6160
+ep 1 step 1500 lr=1.99e-04 loss=2.0319 mark=1.3901 time=6.4177 acc1=0.6199
+ep 1 step 1550 lr=1.98e-04 loss=2.0206 mark=1.3800 time=6.4055 acc1=0.6236
+ep 1 step 1600 lr=1.98e-04 loss=2.0097 mark=1.3705 time=6.3917 acc1=0.6270
+ep 1 step 1650 lr=1.98e-04 loss=2.0016 mark=1.3632 time=6.3847 acc1=0.6299
+ep 1 step 1700 lr=1.97e-04 loss=1.9925 mark=1.3546 time=6.3792 acc1=0.6326
+ep 1 step 1750 lr=1.97e-04 loss=1.9811 mark=1.3440 time=6.3710 acc1=0.6362
+ep 1 step 1800 lr=1.97e-04 loss=1.9719 mark=1.3352 time=6.3669 acc1=0.6386
+ep 1 step 1850 lr=1.96e-04 loss=1.9614 mark=1.3251 time=6.3632 acc1=0.6418
+ep 1 step 1900 lr=1.96e-04 loss=1.9520 mark=1.3162 time=6.3582 acc1=0.6445
+ep 1 step 1950 lr=1.95e-04 loss=1.9415 mark=1.3064 time=6.3513 acc1=0.6468
+ep 1 step 2000 lr=1.95e-04 loss=1.9337 mark=1.2984 time=6.3528 acc1=0.6495
+ep 1 step 2050 lr=1.94e-04 loss=1.9240 mark=1.2891 time=6.3488 acc1=0.6519
+ep 1 step 2100 lr=1.94e-04 loss=1.9171 mark=1.2830 time=6.3418 acc1=0.6539
+ep 1 step 2150 lr=1.93e-04 loss=1.9100 mark=1.2762 time=6.3375 acc1=0.6557
+[ep 1] val top1=0.6770 top3=0.8292 top5=0.8709 time_nll=6.4040  (775s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 2 step 2200 lr=1.93e-04 loss=1.6844 mark=1.0580 time=6.2640 acc1=0.7161
+ep 2 step 2250 lr=1.92e-04 loss=1.6885 mark=1.0680 time=6.2044 acc1=0.7172
+ep 2 step 2300 lr=1.91e-04 loss=1.6769 mark=1.0607 time=6.1625 acc1=0.7179
+ep 2 step 2350 lr=1.91e-04 loss=1.6751 mark=1.0609 time=6.1418 acc1=0.7179
+ep 2 step 2400 lr=1.90e-04 loss=1.6687 mark=1.0532 time=6.1552 acc1=0.7190
+ep 2 step 2450 lr=1.89e-04 loss=1.6680 mark=1.0516 time=6.1647 acc1=0.7190
+ep 2 step 2500 lr=1.89e-04 loss=1.6634 mark=1.0477 time=6.1571 acc1=0.7204
+ep 2 step 2550 lr=1.88e-04 loss=1.6601 mark=1.0439 time=6.1612 acc1=0.7215
+ep 2 step 2600 lr=1.87e-04 loss=1.6549 mark=1.0390 time=6.1593 acc1=0.7227
+ep 2 step 2650 lr=1.86e-04 loss=1.6513 mark=1.0354 time=6.1588 acc1=0.7237
+ep 2 step 2700 lr=1.86e-04 loss=1.6465 mark=1.0304 time=6.1603 acc1=0.7247
+ep 2 step 2750 lr=1.85e-04 loss=1.6358 mark=1.0203 time=6.1547 acc1=0.7278
+ep 2 step 2800 lr=1.84e-04 loss=1.6318 mark=1.0162 time=6.1559 acc1=0.7293
+ep 2 step 2850 lr=1.83e-04 loss=1.6234 mark=1.0080 time=6.1542 acc1=0.7312
+ep 2 step 2900 lr=1.82e-04 loss=1.6180 mark=1.0031 time=6.1493 acc1=0.7329
+ep 2 step 2950 lr=1.81e-04 loss=1.6136 mark=0.9982 time=6.1544 acc1=0.7341
+ep 2 step 3000 lr=1.80e-04 loss=1.6074 mark=0.9927 time=6.1465 acc1=0.7354
+ep 2 step 3050 lr=1.79e-04 loss=1.6019 mark=0.9876 time=6.1435 acc1=0.7368
+ep 2 step 3100 lr=1.78e-04 loss=1.5974 mark=0.9838 time=6.1355 acc1=0.7379
+ep 2 step 3150 lr=1.77e-04 loss=1.5911 mark=0.9777 time=6.1333 acc1=0.7393
+ep 2 step 3200 lr=1.76e-04 loss=1.5844 mark=0.9717 time=6.1263 acc1=0.7410
+[ep 2] val top1=0.7320 top3=0.8605 top5=0.8961 time_nll=6.1963  (774s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 3 step 3250 lr=1.75e-04 loss=1.4597 mark=0.8539 time=6.0581 acc1=0.7958
+ep 3 step 3300 lr=1.74e-04 loss=1.4489 mark=0.8406 time=6.0831 acc1=0.7744
+ep 3 step 3350 lr=1.73e-04 loss=1.4379 mark=0.8318 time=6.0604 acc1=0.7787
+ep 3 step 3400 lr=1.72e-04 loss=1.4317 mark=0.8294 time=6.0228 acc1=0.7788
+ep 3 step 3450 lr=1.71e-04 loss=1.4341 mark=0.8312 time=6.0289 acc1=0.7781
+ep 3 step 3500 lr=1.70e-04 loss=1.4269 mark=0.8246 time=6.0238 acc1=0.7785
+ep 3 step 3550 lr=1.68e-04 loss=1.4281 mark=0.8264 time=6.0165 acc1=0.7781
+ep 3 step 3600 lr=1.67e-04 loss=1.4276 mark=0.8251 time=6.0246 acc1=0.7778
+ep 3 step 3650 lr=1.66e-04 loss=1.4295 mark=0.8269 time=6.0256 acc1=0.7779
+ep 3 step 3700 lr=1.65e-04 loss=1.4288 mark=0.8269 time=6.0192 acc1=0.7780
+ep 3 step 3750 lr=1.64e-04 loss=1.4257 mark=0.8248 time=6.0086 acc1=0.7782
+ep 3 step 3800 lr=1.62e-04 loss=1.4230 mark=0.8234 time=5.9964 acc1=0.7788
+ep 3 step 3850 lr=1.61e-04 loss=1.4221 mark=0.8231 time=5.9898 acc1=0.7790
+ep 3 step 3900 lr=1.60e-04 loss=1.4186 mark=0.8195 time=5.9908 acc1=0.7800
+ep 3 step 3950 lr=1.59e-04 loss=1.4173 mark=0.8186 time=5.9871 acc1=0.7801
+ep 3 step 4000 lr=1.57e-04 loss=1.4149 mark=0.8165 time=5.9842 acc1=0.7807
+ep 3 step 4050 lr=1.56e-04 loss=1.4134 mark=0.8141 time=5.9924 acc1=0.7811
+ep 3 step 4100 lr=1.55e-04 loss=1.4129 mark=0.8132 time=5.9966 acc1=0.7813
+ep 3 step 4150 lr=1.53e-04 loss=1.4105 mark=0.8116 time=5.9893 acc1=0.7817
+ep 3 step 4200 lr=1.52e-04 loss=1.4092 mark=0.8105 time=5.9868 acc1=0.7821
+ep 3 step 4250 lr=1.51e-04 loss=1.4079 mark=0.8092 time=5.9874 acc1=0.7825
+ep 3 step 4300 lr=1.49e-04 loss=1.4065 mark=0.8082 time=5.9837 acc1=0.7828
+[ep 3] val top1=0.7462 top3=0.8703 top5=0.9009 time_nll=6.1592  (774s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 4 step 4350 lr=1.48e-04 loss=1.3870 mark=0.7886 time=5.9848 acc1=0.7843
+ep 4 step 4400 lr=1.46e-04 loss=1.3492 mark=0.7556 time=5.9359 acc1=0.7945
+ep 4 step 4450 lr=1.45e-04 loss=1.3322 mark=0.7394 time=5.9284 acc1=0.7987
+ep 4 step 4500 lr=1.43e-04 loss=1.3349 mark=0.7409 time=5.9398 acc1=0.7981
+ep 4 step 4550 lr=1.42e-04 loss=1.3316 mark=0.7378 time=5.9385 acc1=0.7988
+ep 4 step 4600 lr=1.41e-04 loss=1.3312 mark=0.7378 time=5.9335 acc1=0.7993
+ep 4 step 4650 lr=1.39e-04 loss=1.3307 mark=0.7377 time=5.9309 acc1=0.7996
+ep 4 step 4700 lr=1.38e-04 loss=1.3275 mark=0.7360 time=5.9147 acc1=0.7997
+ep 4 step 4750 lr=1.36e-04 loss=1.3271 mark=0.7350 time=5.9214 acc1=0.8002
+ep 4 step 4800 lr=1.35e-04 loss=1.3284 mark=0.7355 time=5.9291 acc1=0.7998
+ep 4 step 4850 lr=1.33e-04 loss=1.3263 mark=0.7341 time=5.9220 acc1=0.8003
+ep 4 step 4900 lr=1.32e-04 loss=1.3263 mark=0.7342 time=5.9210 acc1=0.8004
+ep 4 step 4950 lr=1.30e-04 loss=1.3263 mark=0.7343 time=5.9192 acc1=0.8001
+ep 4 step 5000 lr=1.29e-04 loss=1.3247 mark=0.7330 time=5.9176 acc1=0.8000
+ep 4 step 5050 lr=1.27e-04 loss=1.3213 mark=0.7301 time=5.9122 acc1=0.8005
+ep 4 step 5100 lr=1.25e-04 loss=1.3198 mark=0.7294 time=5.9049 acc1=0.8008
+ep 4 step 5150 lr=1.24e-04 loss=1.3177 mark=0.7279 time=5.8978 acc1=0.8016
+ep 4 step 5200 lr=1.22e-04 loss=1.3168 mark=0.7281 time=5.8869 acc1=0.8015
+ep 4 step 5250 lr=1.21e-04 loss=1.3149 mark=0.7264 time=5.8850 acc1=0.8017
+ep 4 step 5300 lr=1.19e-04 loss=1.3129 mark=0.7244 time=5.8851 acc1=0.8021
+ep 4 step 5350 lr=1.18e-04 loss=1.3118 mark=0.7235 time=5.8824 acc1=0.8023
+ep 4 step 5400 lr=1.16e-04 loss=1.3088 mark=0.7212 time=5.8759 acc1=0.8023
+[ep 4] val top1=0.7529 top3=0.8752 top5=0.9043 time_nll=6.1409  (776s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 5 step 5450 lr=1.15e-04 loss=1.2702 mark=0.6862 time=5.8397 acc1=0.8003
+ep 5 step 5500 lr=1.13e-04 loss=1.2674 mark=0.6888 time=5.7856 acc1=0.8044
+ep 5 step 5550 lr=1.11e-04 loss=1.2614 mark=0.6812 time=5.8020 acc1=0.8085
+ep 5 step 5600 lr=1.10e-04 loss=1.2632 mark=0.6831 time=5.8016 acc1=0.8095
+ep 5 step 5650 lr=1.08e-04 loss=1.2616 mark=0.6800 time=5.8158 acc1=0.8092
+ep 5 step 5700 lr=1.07e-04 loss=1.2605 mark=0.6792 time=5.8134 acc1=0.8096
+ep 5 step 5750 lr=1.05e-04 loss=1.2610 mark=0.6803 time=5.8069 acc1=0.8095
+ep 5 step 5800 lr=1.03e-04 loss=1.2565 mark=0.6766 time=5.7982 acc1=0.8105
+ep 5 step 5850 lr=1.02e-04 loss=1.2578 mark=0.6787 time=5.7909 acc1=0.8091
+ep 5 step 5900 lr=1.00e-04 loss=1.2551 mark=0.6759 time=5.7921 acc1=0.8100
+ep 5 step 5950 lr=9.86e-05 loss=1.2543 mark=0.6755 time=5.7885 acc1=0.8102
+ep 5 step 6000 lr=9.70e-05 loss=1.2544 mark=0.6752 time=5.7924 acc1=0.8106
+ep 5 step 6050 lr=9.54e-05 loss=1.2562 mark=0.6771 time=5.7909 acc1=0.8103
+ep 5 step 6100 lr=9.38e-05 loss=1.2543 mark=0.6753 time=5.7901 acc1=0.8105
+ep 5 step 6150 lr=9.22e-05 loss=1.2552 mark=0.6757 time=5.7951 acc1=0.8109
+ep 5 step 6200 lr=9.06e-05 loss=1.2537 mark=0.6746 time=5.7918 acc1=0.8110
+ep 5 step 6250 lr=8.90e-05 loss=1.2532 mark=0.6739 time=5.7933 acc1=0.8112
+ep 5 step 6300 lr=8.74e-05 loss=1.2537 mark=0.6742 time=5.7954 acc1=0.8112
+ep 5 step 6350 lr=8.58e-05 loss=1.2535 mark=0.6744 time=5.7909 acc1=0.8111
+ep 5 step 6400 lr=8.42e-05 loss=1.2532 mark=0.6737 time=5.7953 acc1=0.8113
+ep 5 step 6450 lr=8.26e-05 loss=1.2525 mark=0.6730 time=5.7946 acc1=0.8115
+[ep 5] val top1=0.7574 top3=0.8764 top5=0.9061 time_nll=6.1088  (773s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 6 step 6500 lr=8.11e-05 loss=1.2017 mark=0.6189 time=5.8276 acc1=0.8225
+ep 6 step 6550 lr=7.95e-05 loss=1.1843 mark=0.6112 time=5.7308 acc1=0.8180
+ep 6 step 6600 lr=7.79e-05 loss=1.2009 mark=0.6277 time=5.7317 acc1=0.8154
+ep 6 step 6650 lr=7.64e-05 loss=1.2077 mark=0.6348 time=5.7292 acc1=0.8143
+ep 6 step 6700 lr=7.48e-05 loss=1.2092 mark=0.6353 time=5.7388 acc1=0.8159
+ep 6 step 6750 lr=7.33e-05 loss=1.2093 mark=0.6349 time=5.7447 acc1=0.8163
+ep 6 step 6800 lr=7.17e-05 loss=1.2110 mark=0.6372 time=5.7381 acc1=0.8163
+ep 6 step 6850 lr=7.02e-05 loss=1.2116 mark=0.6384 time=5.7315 acc1=0.8167
+ep 6 step 6900 lr=6.87e-05 loss=1.2095 mark=0.6361 time=5.7341 acc1=0.8175
+ep 6 step 6950 lr=6.72e-05 loss=1.2098 mark=0.6358 time=5.7391 acc1=0.8181
+ep 6 step 7000 lr=6.56e-05 loss=1.2080 mark=0.6333 time=5.7472 acc1=0.8187
+ep 6 step 7050 lr=6.41e-05 loss=1.2084 mark=0.6328 time=5.7560 acc1=0.8190
+ep 6 step 7100 lr=6.27e-05 loss=1.2088 mark=0.6336 time=5.7514 acc1=0.8183
+ep 6 step 7150 lr=6.12e-05 loss=1.2080 mark=0.6332 time=5.7481 acc1=0.8180
+ep 6 step 7200 lr=5.97e-05 loss=1.2079 mark=0.6338 time=5.7408 acc1=0.8180
+ep 6 step 7250 lr=5.82e-05 loss=1.2079 mark=0.6343 time=5.7361 acc1=0.8180
+ep 6 step 7300 lr=5.68e-05 loss=1.2069 mark=0.6342 time=5.7272 acc1=0.8185
+ep 6 step 7350 lr=5.54e-05 loss=1.2071 mark=0.6343 time=5.7276 acc1=0.8185
+ep 6 step 7400 lr=5.39e-05 loss=1.2065 mark=0.6336 time=5.7288 acc1=0.8185
+ep 6 step 7450 lr=5.25e-05 loss=1.2052 mark=0.6323 time=5.7293 acc1=0.8192
+ep 6 step 7500 lr=5.11e-05 loss=1.2054 mark=0.6323 time=5.7318 acc1=0.8191
+ep 6 step 7550 lr=4.97e-05 loss=1.2055 mark=0.6325 time=5.7306 acc1=0.8192
+[ep 6] val top1=0.7638 top3=0.8776 top5=0.9073 time_nll=6.0764  (773s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 7 step 7600 lr=4.83e-05 loss=1.1347 mark=0.5706 time=5.6406 acc1=0.8305
+ep 7 step 7650 lr=4.70e-05 loss=1.1681 mark=0.6020 time=5.6603 acc1=0.8280
+ep 7 step 7700 lr=4.56e-05 loss=1.1807 mark=0.6126 time=5.6813 acc1=0.8265
+ep 7 step 7750 lr=4.43e-05 loss=1.1773 mark=0.6058 time=5.7151 acc1=0.8273
+ep 7 step 7800 lr=4.30e-05 loss=1.1839 mark=0.6102 time=5.7372 acc1=0.8248
+ep 7 step 7850 lr=4.17e-05 loss=1.1799 mark=0.6062 time=5.7368 acc1=0.8259
+ep 7 step 7900 lr=4.04e-05 loss=1.1794 mark=0.6061 time=5.7330 acc1=0.8255
+ep 7 step 7950 lr=3.91e-05 loss=1.1748 mark=0.6029 time=5.7181 acc1=0.8264
+ep 7 step 8000 lr=3.78e-05 loss=1.1774 mark=0.6058 time=5.7164 acc1=0.8265
+ep 7 step 8050 lr=3.66e-05 loss=1.1764 mark=0.6051 time=5.7133 acc1=0.8266
+ep 7 step 8100 lr=3.54e-05 loss=1.1737 mark=0.6024 time=5.7128 acc1=0.8274
+ep 7 step 8150 lr=3.41e-05 loss=1.1727 mark=0.6028 time=5.6993 acc1=0.8275
+ep 7 step 8200 lr=3.29e-05 loss=1.1724 mark=0.6024 time=5.7000 acc1=0.8275
+ep 7 step 8250 lr=3.18e-05 loss=1.1720 mark=0.6016 time=5.7040 acc1=0.8273
+ep 7 step 8300 lr=3.06e-05 loss=1.1726 mark=0.6027 time=5.6994 acc1=0.8271
+ep 7 step 8350 lr=2.95e-05 loss=1.1700 mark=0.6001 time=5.6990 acc1=0.8275
+ep 7 step 8400 lr=2.83e-05 loss=1.1697 mark=0.5999 time=5.6985 acc1=0.8274
+ep 7 step 8450 lr=2.72e-05 loss=1.1715 mark=0.6012 time=5.7026 acc1=0.8271
+ep 7 step 8500 lr=2.61e-05 loss=1.1689 mark=0.5991 time=5.6976 acc1=0.8272
+ep 7 step 8550 lr=2.51e-05 loss=1.1684 mark=0.5987 time=5.6970 acc1=0.8269
+ep 7 step 8600 lr=2.40e-05 loss=1.1678 mark=0.5980 time=5.6977 acc1=0.8271
+[ep 7] val top1=0.7722 top3=0.8807 top5=0.9079 time_nll=6.0497  (773s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+ep 8 step 8650 lr=2.30e-05 loss=1.1095 mark=0.5203 time=5.8917 acc1=0.8164
+ep 8 step 8700 lr=2.20e-05 loss=1.1423 mark=0.5813 time=5.6101 acc1=0.8298
+ep 8 step 8750 lr=2.10e-05 loss=1.1526 mark=0.5905 time=5.6206 acc1=0.8260
+ep 8 step 8800 lr=2.00e-05 loss=1.1499 mark=0.5851 time=5.6484 acc1=0.8299
+ep 8 step 8850 lr=1.91e-05 loss=1.1489 mark=0.5838 time=5.6511 acc1=0.8302
+ep 8 step 8900 lr=1.81e-05 loss=1.1453 mark=0.5804 time=5.6486 acc1=0.8305
+ep 8 step 8950 lr=1.72e-05 loss=1.1422 mark=0.5784 time=5.6381 acc1=0.8317
+ep 8 step 9000 lr=1.63e-05 loss=1.1457 mark=0.5808 time=5.6491 acc1=0.8323
+ep 8 step 9050 lr=1.55e-05 loss=1.1456 mark=0.5805 time=5.6505 acc1=0.8318
+ep 8 step 9100 lr=1.46e-05 loss=1.1437 mark=0.5786 time=5.6502 acc1=0.8319
+ep 8 step 9150 lr=1.38e-05 loss=1.1443 mark=0.5797 time=5.6452 acc1=0.8322
+ep 8 step 9200 lr=1.30e-05 loss=1.1427 mark=0.5776 time=5.6508 acc1=0.8321
+ep 8 step 9250 lr=1.22e-05 loss=1.1429 mark=0.5773 time=5.6561 acc1=0.8324
+ep 8 step 9300 lr=1.15e-05 loss=1.1424 mark=0.5771 time=5.6538 acc1=0.8327
+ep 8 step 9350 lr=1.07e-05 loss=1.1400 mark=0.5751 time=5.6490 acc1=0.8332
+ep 8 step 9400 lr=1.00e-05 loss=1.1385 mark=0.5741 time=5.6446 acc1=0.8332
+ep 8 step 9450 lr=9.34e-06 loss=1.1377 mark=0.5737 time=5.6408 acc1=0.8335
+ep 8 step 9500 lr=8.67e-06 loss=1.1369 mark=0.5726 time=5.6437 acc1=0.8336
+ep 8 step 9550 lr=8.03e-06 loss=1.1384 mark=0.5737 time=5.6468 acc1=0.8332
+ep 8 step 9600 lr=7.41e-06 loss=1.1387 mark=0.5736 time=5.6509 acc1=0.8333
+ep 8 step 9650 lr=6.82e-06 loss=1.1392 mark=0.5738 time=5.6549 acc1=0.8333
+ep 8 step 9700 lr=6.25e-06 loss=1.1407 mark=0.5747 time=5.6607 acc1=0.8330
+[ep 8] val top1=0.7719 top3=0.8806 top5=0.9080 time_nll=6.0561  (774s)
+ep 9 step 9750 lr=5.71e-06 loss=1.1672 mark=0.6043 time=5.6284 acc1=0.8155
+ep 9 step 9800 lr=5.19e-06 loss=1.1620 mark=0.6001 time=5.6189 acc1=0.8257
+ep 9 step 9850 lr=4.69e-06 loss=1.1527 mark=0.5890 time=5.6372 acc1=0.8294
+ep 9 step 9900 lr=4.22e-06 loss=1.1429 mark=0.5780 time=5.6487 acc1=0.8306
+ep 9 step 9950 lr=3.77e-06 loss=1.1381 mark=0.5735 time=5.6462 acc1=0.8323
+ep 9 step 10000 lr=3.35e-06 loss=1.1342 mark=0.5707 time=5.6345 acc1=0.8340
+ep 9 step 10050 lr=2.95e-06 loss=1.1342 mark=0.5715 time=5.6271 acc1=0.8330
+ep 9 step 10100 lr=2.57e-06 loss=1.1304 mark=0.5676 time=5.6285 acc1=0.8339
+ep 9 step 10150 lr=2.23e-06 loss=1.1295 mark=0.5659 time=5.6357 acc1=0.8349
+ep 9 step 10200 lr=1.90e-06 loss=1.1306 mark=0.5663 time=5.6427 acc1=0.8343
+ep 9 step 10250 lr=1.60e-06 loss=1.1284 mark=0.5651 time=5.6336 acc1=0.8347
+ep 9 step 10300 lr=1.33e-06 loss=1.1267 mark=0.5629 time=5.6371 acc1=0.8352
+ep 9 step 10350 lr=1.08e-06 loss=1.1258 mark=0.5615 time=5.6427 acc1=0.8357
+ep 9 step 10400 lr=8.61e-07 loss=1.1268 mark=0.5618 time=5.6497 acc1=0.8359
+ep 9 step 10450 lr=6.64e-07 loss=1.1246 mark=0.5602 time=5.6438 acc1=0.8367
+ep 9 step 10500 lr=4.92e-07 loss=1.1251 mark=0.5605 time=5.6461 acc1=0.8367
+ep 9 step 10550 lr=3.46e-07 loss=1.1260 mark=0.5609 time=5.6513 acc1=0.8366
+ep 9 step 10600 lr=2.26e-07 loss=1.1266 mark=0.5616 time=5.6504 acc1=0.8361
+ep 9 step 10650 lr=1.31e-07 loss=1.1273 mark=0.5619 time=5.6537 acc1=0.8362
+ep 9 step 10700 lr=6.20e-08 loss=1.1269 mark=0.5620 time=5.6492 acc1=0.8361
+ep 9 step 10750 lr=1.85e-08 loss=1.1274 mark=0.5623 time=5.6510 acc1=0.8359
+ep 9 step 10800 lr=5.13e-10 loss=1.1274 mark=0.5621 time=5.6529 acc1=0.8359
+[ep 9] val top1=0.7742 top3=0.8816 top5=0.9089 time_nll=6.0545  (773s)
+  -> saved best to m4_runs\20260422_041901_large/best.pt
+
+[test] loading best checkpoint...
+[test] top1=0.7900 top3=0.8971 top5=0.9244 time_nll=6.0127
+  n_legal in 1-1: n=3  top1=1.0
+  n_legal in 2-3: n=3  top1=0.0
+  n_legal in 4-6: n=17  top1=0.8823529481887817
+  n_legal in 7-15: n=120  top1=0.8999999761581421
+  n_legal in 16-300: n=10047  top1=0.7886931300163269
